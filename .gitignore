@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv*/
+/Meritve/BioPack/Dan */csv/
+/Meritve/Senstream/Dan */csv/
+/Meritve/Combined/
+/Meritve/Filtered/
+/Results/
+/thesis/Slike/
+/validation.json
