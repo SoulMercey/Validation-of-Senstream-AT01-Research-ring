@@ -5,6 +5,36 @@ This repository contains the measurement data and Python analysis workflow for e
 
 The repository can be used to inspect paired recordings, reproduce the signal comparisons, and generate figures. The [full thesis](thesis/Magistrska%20Vukadin%20final.pdf) describes the experimental protocol, processing methods, results, and limitations.
 
+## Results at a glance
+
+**The ring tracked overall EDA signal patterns well, while agreement in individual skin conductance response detection remained limited.**
+
+The thesis evaluated **46 participants and 85 recordings**. Its conclusion reports the following mean time-shifted Spearman correlations between Senstream and Biopac:
+
+| Signal comparison | Scope | Correlation |
+| --- | --- | --- |
+| Raw EDA | Whole recording | 0.76 |
+| Raw EDA | First task, without arm movement | 0.86 |
+| Tonic component, NeuroKit2 | Whole recording | 0.77 |
+| Phasic component, NeuroKit2 | Whole recording | 0.84 |
+
+Individual response detection was less consistent: **NeuroKit2 peak-detection F1 was approximately 0.60**. The accelerometer identified periods of movement within the laboratory protocol. The conclusion recommends NeuroKit2 for basic processing and further measurements at a higher sampling rate to better assess individual responses.
+
+These values are reported in [Chapter 5 of the thesis](thesis/Magistrska%20Vukadin%20final.pdf#page=74).
+
+### EDA signal comparison
+
+![Aligned, normalized BioPack and Senstream EDA signals in a high-agreement recording](docs/figures/eda-comparison.png)
+
+A high-agreement example from thesis Figure 3.1. The two signals are aligned in time and normalized to compare their shapes; this example illustrates agreement rather than the average performance of all recordings.
+
+### Tonic and phasic components
+
+![Tonic and phasic components from manual filtering, NeuroKit2, and cvxEDA for both devices](docs/figures/tonic-phasic-decomposition.png)
+
+Thesis Figure 3.4: tonic components on the left and phasic components on the right, with BioPack above and Senstream below. Manual filtering and NeuroKit2 produce nearly overlapping curves, while cvxEDA gives different phasic amplitudes.
+
+
 ## Abstract
 
 In this master's thesis, we investigated whether the Senstream AT01 sensor ring is a suitable alternative to the Biopac MP150 laboratory system with an EDA100C module for measuring electrodermal activity (EDA) when mobility and ease of use are important.
@@ -18,7 +48,7 @@ The results showed that the EDA signal measured by the ring closely followed the
 
 ## Run the analysis
 
-Use Python 3.12. From the repository root, create and activate a virtual environment, install the dependencies, and run:
+Use Python 3.12 and Windows PowerShell. From the repository root, create and activate a virtual environment, install the dependencies, and run:
 
 ```powershell
 py -3.12 -m venv .venv
@@ -39,7 +69,9 @@ The pipeline trims the raw recordings, validates recording pairs, generates comb
 ## Directory structure
 
 ```text
-Magistrska-anonymous/
+Validation-of-Senstream-AT01-Research-ring/
+├── docs/
+│   └── figures/                       # Selected thesis figures displayed in this README
 ├── Instructional video/               # Participant instructions used during the measurement protocol
 │   ├── Instrucitional_Video_hyperventilate_PT1_FINAL.mp4
 │   └── README.md                      # Note on the captions used in Part 2
@@ -72,4 +104,4 @@ Magistrska-anonymous/
 
 Raw recordings in `BioPack` and `Senstream` are organized into `Dan 1`, `Dan 2`, and `Dan 3` (measurement days). Preprocessing creates `csv/` subfolders within those day folders. Raw Senstream signal CSVs are part of the input data; the day-level `csv/` subfolders contain trimmed outputs.
 
-Generated data, results, and figures are created locally and ignored by Git. `python Scripts/run_all.py` produces the processed data and analysis tables; plotting scripts and functions produce the figure folders shown above.
+Generated data, results, and figures are created locally and ignored by Git. The selected thesis figures in `docs/figures` are included for the README. `python Scripts/run_all.py` produces the processed data and analysis tables; plotting scripts and functions produce the figure folders shown above.
